@@ -1,14 +1,19 @@
-cmake_minimum_required(VERSION 3.11.3)
-
-set(CMAKE_CXX_STANDARD 17)
-
+cmake_minimum_required(VERSION 3.13)
+set(CMAKE_CXX_COMPILER /usr/bin/g++)
 project(Membot)
 
-find_package(wxWidgets REQUIRED COMPONENTS core base)
+add_executable(${PROJECT_NAME})
+add_subdirectory(src)
+
+set_property(TARGET Membot PROPERTY CXX_STANDARD 17)
+
+target_compile_options(Membot PRIVATE -Wall -Wextra)
+
+find_package(wxWidgets REQUIRED gl core base)
+
 include(${wxWidgets_USE_FILE})
-
-file(GLOB project_SRCS src/*.cpp)
-
-add_executable(membot ${project_SRCS})
-target_link_libraries(membot ${wxWidgets_LIBRARIES})
-target_include_directories(membot PRIVATE ${wxWidgets_INCLUDE_DIRS})
+target_link_libraries(
+    Membot
+        ${wxWidgets_LIBRARIES}
+        ${wxWidgets_LIBRARY_DIRS}
+)
